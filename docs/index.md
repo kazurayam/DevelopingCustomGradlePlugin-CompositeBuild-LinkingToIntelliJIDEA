@@ -1,3 +1,3 @@
 # Gradleのカスタムプラグインを作りたい、GradleプロジェクトをComposite Buildにしたい、GradleプロジェクトをIntelliJ IDEAとリンクしたい、と企んで成功した話
 
-See https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/
+この問題に出会ってから解決するまでに3年ぐらいかかった。本記事のタイトルがこんなに長いのは所要時間の長さを反映しています。
