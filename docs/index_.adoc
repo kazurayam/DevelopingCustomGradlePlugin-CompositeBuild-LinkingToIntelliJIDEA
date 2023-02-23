@@ -1,0 +1,33 @@
+== 作業環境
+
+* macOS 12.6
+* Gradle 7.6
+* IntelliJ IDEA Ultimnate 2022.2.1
+* Emacs 28.2
+
+== Branches
+
+ブランチstep1とstep2を作るにあたってはTerminalでbashコマンドとEmacsエディタを使った。あえてIntelliJ IDEAは使わなかった。step2でちゃんと動作する状態であることを確認できたGradleプロジェクトをIntelliJ IDEAに取り込むことをstep3で試みたが、ぐちゃぐちゃになった。Composite Buildの構成のGradleプロジェクトをIntelliJに結びつける正しい方法がわからなかった。２年ぐらい悪戦苦闘した。ついにわかった。step4でその方法をデモする。
+
+
+=== step1
+
+`<projectDir>/plugin-project`ディレクトリを作ってカスタムGradleプラグインのプロジェクトを作った。`gradle init`コマンドを実行し`4: Gradle Plugin`を選択してサンプルコード一式を自動生成させた。
+
+=== step2
+
+`<projectDir>/rehearsal-project`ディレクトリを追加してComposite Buildの構成にした。`rehearsal-project/build.gradle`ファイルがカスタムGradleプラグインを呼び出して実行できるようにした。`plugin-project`が開発したカスタムGradleプラグインをMavenレポジトリを経由せずに直接呼び出す。リハーサルすなわち予行演習が素早くできるように。
+
+=== step3
+
+GradleプロジェクトをIntelliJ IDEAで開いてコードの開発をしようとしたが、うまくいかなかった。
+
+. IDEAの「モジュール」をどう設定すればいいのかわからなかった。IDEAの「モジュール」を作ろうとして色々試みるうちに、IDEAが余計なフォルダを追加したり、`settings.gradle`ファイルと`build.gradle`ファイルを上書きしたりしたせいで、元のGradleプロジェクトが壊れて動かなくなってしまった。
+
+. IDEAがクラスパスを正しく認識できていないので、カスタムGradleプラグインのコードをコンパイルすることすらできない
+
+. エディタ画面を右クリックしてJUnit5のテストを実行したいのだが、できなかった
+
+=== step4
+
+完成しているGradleプロジェクトをIntelliJ IDEAに取り込むにどうすればいいのか、正しい方法をついに見つけた。build.gradleファイルを右クリックして "link to IntelliJ IDEA" メニューを選択する。

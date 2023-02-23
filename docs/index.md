@@ -1,3 +1,10 @@
-# Gradleのカスタムプラグインを作りたい、GradleプロジェクトをComposite Buildにしたい、GradleプロジェクトをIntelliJ IDEAとリンクしたい、と企んで成功した話
+# 作業環境
 
-この問題に出会ってから解決するまでに3年ぐらいかかった。本記事のタイトルがこんなに長いのは所要時間の長さを反映しています。
+macOS 12.6
+Gradle 7.6
+IntelliJ IDEA Ultimnate 2022.2.1
+Emacs 28.2
+
+# Branches
+
+-   \[step0\]() \`&lt;projectDir&gt;/plugin-project\`ディレクトリを作ってカスタムGradleプラグインのプロジェクトを作った。\`gradle init\`コマンドを実行し\`4: Gradle Plugin\`を選択したら、サンプルが自動生成された。
