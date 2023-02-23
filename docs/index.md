@@ -1,3 +1,5 @@
+[レポジトリのtopに戻る](https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA)
+
 # 作業環境
 
 -   macOS 12.6
@@ -392,13 +394,65 @@ FunctionalTestのなかでカスタムGradleプラグインが提供する `gree
 
 ## step3
 
+[ブランチ step3](https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step3)
+
 GradleプロジェクトをIntelliJ IDEAで開いてコードの開発をしようとしたが、うまくいかなかった。
 
-1.  IDEAの「モジュール」をどう設定すればいいのかわからなかった。IDEAの「モジュール」を作ろうとして色々試みるうちに、IDEAが余計なフォルダを追加したり、\`settings.gradle\`ファイルと\`build.gradle\`ファイルを上書きしたりしたせいで、元のGradleプロジェクトが壊れて動かなくなってしまった。
+わたしはIntelliJ IDEAを立ち上げて `GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA` ディレクトリを開いた。下記のスクリーンショットを参照のこと。
 
-2.  IDEAがクラスパスを正しく認識できていないので、カスタムGradleプラグインのコードをコンパイルすることすらできない
+![step3 1 just after opening in IDEA](images/step3_1_just_after_opening_in_IDEA.png)
 
-3.  エディタ画面を右クリックしてJUnit5のテストを実行したいのだが、できなかった
+この中には具合の悪いことがたくさんある。かいつまんで指摘してみよう。
+
+IDEAがこういうメッセージを表示した: `Package name mismatch. Actual: 'com.kazurayam.sample', expected: ''`.
+
+![step3 2 package name mismatch](images/step3_2_package_name_mismatch.png)
+
+このメッセージから、IDEAが `plugin-project` プロジェクトのGroovyソースコードがどのディレクトリに格納されているかを正しく認識していないということがわかる。
+
+またIDEAは次のメッセージを表示した: `No candidates found for method call project.tasks`.
+
+![step3 3 No candidates found for method call project.task](images/step3_3_No_candidates_found_for_method_call_project.task.png)
+
+このメッセージに登場した `task.project` という変数はGradle APIの中心である `org.gradle.api.Project` クラスのインスタンスだ。ところがIDEA(の手下であるGroovyコンパイラ)はこの変数が何なのかわかっていない様子だ。お話にならない。
+
+IDEAは次のメッセージも表示した。`Groovy SDK is not configured for module 'GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA'`.
+
+![step3 4 Groovy SDK is not configured](images/step3_4_Groovy_SDK_is_not_configured.png)
+
+はあ？何のこっちゃ？ コマンドラインで \`plugin-project\`をGradleコマンド問題なくビルドできるのに、なぜIDEAはSDKがどうのこうのとややこしいことを要求するのか？
+
+[IDEAのドキュメント](https://pleiades.io/help/idea/gradle.html)を斜め読みした。IDEAのツールバー Files &gt; Project Structure.. を選ぶと表示されるダイアログ "Project Structure" で Project Settings メニューの中の Modules をなんとかする必要があるらしく思われた。そのダイアログを初めて開いた状態を下記スクリーンショットが示す。
+
+![step3 5 File ProjectStructure](images/step3_5_File_ProjectStructure.png)
+
+さて、何をどうするべきなのか？
+
+step2で完成させたGradleプロジェクトがComposite Build構成とか、マルチプロジェクトとかの技を駆使しているせいで、ドキュメントを始めて読んだ初心者であわわたしはIDEAのModuleをどのように構成するべきなのか、さっぱりわからなかった。
+
+しょうがない、当てずっぽうでも良いから、何かやってみよう。多分 `plugin-project` を一つのIDEAモジュールとして認識させることが必要なんだろう。ちょっとやってみよう、というわけで、下記のように入力してみた。
+
+![step3 6 tried creating module for plugin project](images/step3_6_tried_creating_module_for_plugin-project.png)
+
+その結果、どうなったか？
+
+ぐちゃぐちゃになってしまった。次のスクリーンショットがその様子を示す。
+
+![step3 7 plugin project got total mess](images/step3_7_plugin-project_got_total_mess.png)
+
+ミステリーがいくつも起きた。
+
+1.  `plugin-project/settings.gradle` ファイルがIDEAによって上書きされてしまった。 `include('plugin')` の行が無くなった。だからマルチプロジェクトであるはずのプロジェクト構成が壊れてしまった。
+
+2.  `plugin-project/build.gradle` ファイルがIDEAによって追加された。このファイルはまったく不要だ。
+
+3.  `plugin-project/src` ディレクトリとその下に\`src/main/java\` とかのディレクトリがIDEAによって追加された。こいつらも不要だ。
+
+この時点においてもIDEAは `plugin-project` のclasspathを正しく認識できていなかった。だから先に示した珍妙な警告メッセージはそのままだ。全く解決できていない。
+
+この状態ではIntelliJ IDEAでこのプロジェクトを開発継続することは不可能だ。困り果てた。
+
+以上が2年前のこと。それ以来、ずーっと悩みっぱなしだった。
 
 ## step4
 
