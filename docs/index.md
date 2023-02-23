@@ -18,8 +18,23 @@
 
 \`&lt;projectDir&gt;/plugin-project\`ディレクトリを作ってカスタムGradleプラグインのプロジェクトを作った。\`gradle init\`コマンドを実行し\`4: Gradle Plugin\`を選択してサンプルコード一式を自動生成させた。
 
+`GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA` という名前のディレクトリを作った。これをレポジトリのルートと定めた。
+
+レポジトリのルートディレクトリの直下に `plugin-project` という名前のディレクトリを作った。
+
+    :~/github
+    $ mkdir GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA
+
+    :~/github
+    $ cd GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA
+
+    :~/github/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA
     $ cd plugin-project/
-    :~/github/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/plugin-project (step0 *)
+
+次に `plugin-project` ディレクトリの下にGradleプロジェクトを作成した。カスタムGradleプラグインを開発するためのプロジェクトだ。 `gradle init` コマンドを実行して、プロジェクトの雛形を自動生成させた。
+
+    $ baseName `pwd`
+    plugin-project
 
     $ gradle init
 
@@ -50,6 +65,8 @@
 
     BUILD SUCCESSFUL in 1m 28s
     2 actionable tasks: 2 executed
+
+`gradle init` コマンドがどういうファイル・ツリーを自動生成したのだろうか？ `tree` コマンドで中身を調べた。
 
     $ basename `pwd`
     GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA
@@ -92,44 +109,31 @@
 
     25 directories, 15 files
 
-\`&lt;projectDir&gt;/plugin-project\`ディレクトリの下に完全なGradleプロジェクトができている。
+`<rootDir>/plugin-project` ディレクトリの下に完全なGradleプロジェクトができている。
 
-プロジェクトのルートディレクトリである\`&lt;projectDir&gt;/plugin-project\`の下に `plugin` ディレクトリが作られた。その下に `src` ディレクトリが位置付けられている。\`gradle init\`がこのようなディレクトリ構成を自動生成した。
+プロジェクトのルートディレクトリである `<rootDir>/plugin-project` の下に `plugin` ディレクトリが作られていることに注意しよう。その下に `src` ディレクトリがある。
 
-\`settings.gradle\`ファイルの中身はこうなっている。
+`<rootDir>/plugin-project/settings.gradle` ファイルの中身はこうなっていた。
 
-    include:../plugin-project/settings.gradle[lines=10..11]
+    rootProject.name = 'plugin-project'
+    include('plugin')
 
-ここに `include('plugin')` という行があることに注目しよう。
+ここに `include('plugin')` という行があることに注目しよう。これはGradleの用語でいうところの [マルチプロジェクト](https://docs.gradle.org/current/userguide/multi_project_builds.html#sec:creating_multi_project_builds) である。すなわちプロジェクトのルートディレクトリの下に複数のサブディレクトリを作り、それぞれの下に `src` ディレクトリを配置する。`plugin-project` プロジェクトはマルチプロジェクトの構成を取りつつも、ここではたまたまサブプロジェクトをひとつ（`plugin`）だけ持っている。
 
-このディレクトリ構成はGradleの用語でいうところの [マルチプロジェクト](https://docs.gradle.org/current/userguide/multi_project_builds.html#sec:creating_multi_project_builds) である。すなわちプロジェクトのルートディレクトリの下に複数のサブディレクトリを作り、それぞれの下に `src` ディレクトリを配置する。例えば下記のようなディレクトリ構成もマルチプロジェクトの例だ。
-
-    $ basename `pwd`
-    projectX
-    :~/tmp/projectX
-    $ tree .
-    .
-    ├── app
-    │   └── src
-    │       ├── main
-    │       │   └── java
-    │       └── test
-    │           └── groovy
-    ├── settings.gradle
-    └── tools
-        └── src
-            └── main
-                └── java
-
-さて、自動生成された `plugin-project` をビルドしてみよう。
+さて、自動生成された `plugin-project` プロジェクトでGradleビルドを実行してみよう。
 
     $ basename `pwd`
     plugin-project
-    :~/github/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/plugin-project (step0 *)
-    $ gradle clean test
+
+    $ gradle test
 
     BUILD SUCCESSFUL in 6s
     6 actionable tasks: 6 executed
+
+`gradle test` コマンドが成功した。それにともなって `<rootDir>/plugin-project/build` ディレクトリが作られ、その下にたくさんのファイルが生成された。実際、どのようなファイルができたかを調べてみた。
+
+    $ baseName `pwd`
+    plugin-project
 
     $ tree .
     .
@@ -229,11 +233,56 @@
 
     68 directories, 26 files
 
-`` test`タスクが正常に動いた。それにともなって `<projectDir>/plugin-project/build `` ディレクトリが作られ、その下にたくさんのファイルが生成された。
+`gradle init` コマンドが自動生成した [`<rootDir>/plugin-project/plugin/build.gradle`](https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/blob/step1/plugin-project/plugin/build.gradle) ファイルには `check` タスクが定義されている。これは Functional テストを実行するタスクだ。
 
-実は\`gradle init\`コマンドが自動生成した `<projectDir>/plugin-project/plugin/build.gradle` ファイルには `check` タスクが定義されている。
+    // Add a source set for the functional test suite
+    sourceSets {
+        functionalTest {
+        }
+    }
 
-    [lines=37..57]
+    configurations.functionalTestImplementation.extendsFrom(configurations.testImplementation)
+
+    // Add a task to run the functional tests
+    tasks.register('functionalTest', Test) {
+        testClassesDirs = sourceSets.functionalTest.output.classesDirs
+        classpath = sourceSets.functionalTest.runtimeClasspath
+        useJUnitPlatform()
+    }
+
+    gradlePlugin.testSourceSets(sourceSets.functionalTest)
+
+    tasks.named('check') {
+        // Run the functional tests as part of `check`
+        dependsOn(tasks.functionalTest)
+    }
+
+[PluginProjectPluginFunctionalTest.groovy](https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/blob/step1/plugin-project/plugin/src/functionalTest/groovy/com/kazurayam/sample/PluginProjectPluginFunctionalTest.groovy)というコードが生成されていた。このGroovyコードが何をしているのだろうか？
+
+FunctionalTestは一時的ディレクトリを作りその中に `build.gradle` ファイルを作る。その中にはこう書いてる。
+
+    plugins {
+        id('com.kazurayam.sample.greeting')
+    }
+
+つまり `com.kazurayam.sample.greeting` というカスタムGradleプラグインを呼び出す準備をしている。そして `org.gradle.testkit.runner.gradleRunner.GradleRunner` クラスを経由して、カスタムGradleプラグインが提供する `greeting` タスクを実行する。
+
+では `gradle check` タスクを実行してみよう。
+
+    $ baseName `pwd`
+    plugin-project
+
+    $ gradle check
+
+    BUILD SUCCESSFUL in 891ms
+
+\`check\`タスクが成功した。
+
+FunctionalTestのなかでカスタムGradleプラグインが提供する `greeting` タスクが実行されたはずで、`greeting` タスクはSystem.outにテキストをprintしたはずだ。それを目視で確かめたい。System.outを目視するには `plugin-project/plugin/build/reports/tests/functionalTest/classes/com.kazurayam.sample.PluginProjectPluginFunctionalTest.html` ファイルをブラウザで開けば良い。こんなふうにテキストを目視することができた。
+
+![step1 Test results PluginProjectPluginFunctionalTest](images/step1_Test-results-PluginProjectPluginFunctionalTest.png)
+
+Functionalテストもちゃんと動作していることを確認した。
 
 ## step2
 
