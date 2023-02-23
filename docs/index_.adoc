@@ -2,25 +2,28 @@
 
 * macOS 12.6
 * Gradle 7.6
-* IntelliJ IDEA Ultimnate 2022.2.1
+* IntelliJ IDEA Ultimate 2022.2.1
 * Emacs 28.2
 
 == Branches
 
-ブランチstep1とstep2を作るにあたってはTerminalでbashコマンドとEmacsエディタを使った。あえてIntelliJ IDEAは使わなかった。step2でちゃんと動作する状態であることを確認できたGradleプロジェクトをIntelliJ IDEAに取り込むことをstep3で試みたが、ぐちゃぐちゃになった。Composite Buildの構成のGradleプロジェクトをIntelliJに結びつける正しい方法がわからなかった。２年ぐらい悪戦苦闘した。ついにわかった。step4でその方法をデモする。
-
+ブランチ step1 と step2 を作るにあたっては Terminalアプリケーション で bash とEmacsエディタを使った。あえてIntelliJ IDEAを使わなかった。step2でちゃんと動作する状態であることを確認できたGradleプロジェクトをIntelliJ IDEAに取り込むことを step3 で試みたが失敗した。Composite Build構成のGradleプロジェクトをIntelliJ IDEAに結びつける正しい方法がわからなかった。この疑問に遭遇したのが２年ぐらい前。以来、悪戦苦闘したあげく、ついに答えを見つけた。step4でその方法をデモする。
 
 === step1
 
 link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step1[ブランチ step1]
 
-`<projectDir>/plugin-project`ディレクトリを作ってカスタムGradleプラグインのプロジェクトを作った。`gradle init`コマンドを実行し`4: Gradle Plugin`を選択してサンプルコード一式を自動生成させた。
+`<rootDir>/plugin-project`ディレクトリを作ってカスタムGradleプラグインのプロジェクトを作った。`gradle init`コマンドを実行し`4: Gradle Plugin`を選択してサンプルコード一式を自動生成させた。
 
 include::step1.adoc[]
 
 === step2
 
-`<projectDir>/rehearsal-project`ディレクトリを追加してComposite Buildの構成にした。`rehearsal-project/build.gradle`ファイルがカスタムGradleプラグインを呼び出して実行できるようにした。`plugin-project`が開発したカスタムGradleプラグインをMavenレポジトリを経由せずに直接呼び出す。リハーサルすなわち予行演習が素早くできるように。
+link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step2[ブランチ step2]
+
+`<rootDir>/rehearsal-project` ディレクトリを追加してComposite Buildの構成にした。`rehearsal-project/build.gradle` ファイルがカスタムGradleプラグインを呼び出して実行できるようにした。`plugin-project` が開発したカスタムGradleプラグインを **Mavenレポジトリを経由せずに** 直接呼び出す。jarファイルを作ってMavenレポジトリに上げる手間を省くことで、リハーサルすなわち予行演習が素早くできるようにした。
+
+include::step2.adoc[]
 
 === step3
 

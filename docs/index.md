@@ -4,19 +4,19 @@
 
 -   Gradle 7.6
 
--   IntelliJ IDEA Ultimnate 2022.2.1
+-   IntelliJ IDEA Ultimate 2022.2.1
 
 -   Emacs 28.2
 
 # Branches
 
-ブランチstep1とstep2を作るにあたってはTerminalでbashコマンドとEmacsエディタを使った。あえてIntelliJ IDEAは使わなかった。step2でちゃんと動作する状態であることを確認できたGradleプロジェクトをIntelliJ IDEAに取り込むことをstep3で試みたが、ぐちゃぐちゃになった。Composite Buildの構成のGradleプロジェクトをIntelliJに結びつける正しい方法がわからなかった。２年ぐらい悪戦苦闘した。ついにわかった。step4でその方法をデモする。
+ブランチ step1 と step2 を作るにあたっては Terminalアプリケーション で bash とEmacsエディタを使った。あえてIntelliJ IDEAを使わなかった。step2でちゃんと動作する状態であることを確認できたGradleプロジェクトをIntelliJ IDEAに取り込むことを step3 で試みたが失敗した。Composite Build構成のGradleプロジェクトをIntelliJ IDEAに結びつける正しい方法がわからなかった。この疑問に遭遇したのが２年ぐらい前。以来、悪戦苦闘したあげく、ついに答えを見つけた。step4でその方法をデモする。
 
 ## step1
 
 [ブランチ step1](https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step1)
 
-\`&lt;projectDir&gt;/plugin-project\`ディレクトリを作ってカスタムGradleプラグインのプロジェクトを作った。\`gradle init\`コマンドを実行し\`4: Gradle Plugin\`を選択してサンプルコード一式を自動生成させた。
+\`&lt;rootDir&gt;/plugin-project\`ディレクトリを作ってカスタムGradleプラグインのプロジェクトを作った。\`gradle init\`コマンドを実行し\`4: Gradle Plugin\`を選択してサンプルコード一式を自動生成させた。
 
 `GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA` という名前のディレクトリを作った。これをレポジトリのルートと定めた。
 
@@ -286,7 +286,109 @@ FunctionalTestのなかでカスタムGradleプラグインが提供する `gree
 
 ## step2
 
-\`&lt;projectDir&gt;/rehearsal-project\`ディレクトリを追加してComposite Buildの構成にした。\`rehearsal-project/build.gradle\`ファイルがカスタムGradleプラグインを呼び出して実行できるようにした。\`plugin-project\`が開発したカスタムGradleプラグインをMavenレポジトリを経由せずに直接呼び出す。リハーサルすなわち予行演習が素早くできるように。
+[ブランチ step2](https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step2)
+
+`<rootDir>/rehearsal-project` ディレクトリを追加してComposite Buildの構成にした。`rehearsal-project/build.gradle` ファイルがカスタムGradleプラグインを呼び出して実行できるようにした。`plugin-project` が開発したカスタムGradleプラグインを **Mavenレポジトリを経由せずに** 直接呼び出す。jarファイルを作ってMavenレポジトリに上げる手間を省くことで、リハーサルすなわち予行演習が素早くできるようにした。
+
+ルートディレクトリ `GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA` の直下に、`plugin-project` ディレクトリに並ぶ形で `rehearsal-project` ディレクトリを作った。
+
+    $ baseName `pwd`
+    GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA
+
+    $ mkdir rehearsal-project
+
+    $ cd rehearsal-project
+
+    $ baseName `pwd`
+    rehearsal-project
+
+そして `cd rehearsal-project` してから `gradle init` コマンドを実行した。basicなGradleプロジェクトを自動生成するためだ。
+
+    $ baseName `pwd`
+    rehearsal-project
+
+    $ gradle init
+
+    Select type of project to generate:
+      1: basic
+      2: application
+      3: library
+      4: Gradle plugin
+    Enter selection (default: basic) [1..4] 1
+
+    Select build script DSL:
+      1: Groovy
+      2: Kotlin
+    Enter selection (default: Groovy) [1..2] 1
+
+    Generate build using new APIs and behavior (some features may change in the next
+    Project name (default: rehearsal-project):
+
+    > Task :init
+    Get more help with your project: Learn more about Gradle by exploring our samples at https://docs.gradle.org/7.6/samples
+
+    BUILD SUCCESSFUL in 10s
+    2 actionable tasks: 2 executed
+
+これによって `rehearsal-project` ディレクトリの下にGradleプロジェクトのコード一式が生成された。
+
+    $ baseName `pwd`
+    rehearsal-project
+
+    $ tree .
+    .
+    ├── build.gradle
+    ├── gradle
+    │   └── wrapper
+    │       ├── gradle-wrapper.jar
+    │       └── gradle-wrapper.properties
+    ├── gradlew
+    ├── gradlew.bat
+    └── settings.gradle
+
+    3 directories, 6 files
+
+わたは `rehearsal-project/settings.gradle` ファイルを次のように書き変えた。
+
+    rootProject.name = 'rehearsal-project'
+
+    // include the build of the plugin development project
+    includeBuild("../plugin-project") {
+        dependencySubstitution {
+            // explicitly load the output of the included build
+            // into the consumer project's classpath
+            substitute(module('com.kazurayam:plugin-project'))
+        }
+    }
+
+`includeBuild()` というクロージャー呼び出しに注目してほしい。これがGradleのドキュメントにおいて [Composite Build](https://docs.gradle.org/current/userguide/composite_builds.html) と呼ばれているテクニックだ。これによって\`plugin-project\` プロジェクトが作成したカスタムGradleプラグインを `rehearsal-project` プロジェクトが直接に参照することができる。
+
+わたしは `rehearsal-project/build.gradle` ファイルを次のように書き換えた。
+
+    plugins {
+        id "com.kazurayam.sample.greeting"
+    }
+
+つまり `rehearsal-project` のGradleビルドが隣の `plugin-project` のカスタムGradleプラグインを使います、と宣言している。
+
+カスタムGradleプラグインは実行時に `greeting` タスクをビルドに組み込むように作られている。だから実際に動かしてみよう。
+
+    $ baseName `pwd`
+    rehearsal-project
+
+    $ gradle greeting
+
+    > Task :greeting
+    Hello from plugin 'com.kazurayam.sample.greeting'
+
+    BUILD SUCCESSFUL in 2s
+    5 actionable tasks: 2 executed, 3 up-to-date
+
+カスタムGradleプラグインが動いて "Hello " というメッセージを表示した。成功だ。
+
+このように　ブランチ step2 に格納されたコード一式はComposite Build構成のGradleプロジェクトになっていて、完全に動作することを確かめることができた。めでたし、めでたし。
+
+以上のコードをわたしはbashシェルとテキストエディタで開発した。IntelliJ IDEAは使わなかった。次の step3 では step2 で作ったGradleプロジェクトをIntelliJ IDEAで開いて開発できるように設定することを試みた。ところが、うまくいかなかったんだ、これが。
 
 ## step3
 
