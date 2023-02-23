@@ -10,7 +10,7 @@
 
 # Branches
 
-ブランチ step1 と step2 を作るにあたっては Terminalアプリケーション で bash とEmacsエディタを使った。あえてIntelliJ IDEAを使わなかった。step2でちゃんと動作する状態であることを確認できたGradleプロジェクトをIntelliJ IDEAに取り込むことを step3 で試みたが失敗した。Composite Build構成のGradleプロジェクトをIntelliJ IDEAに結びつける正しい方法がわからなかった。この疑問に遭遇したのが２年ぐらい前。以来、悪戦苦闘したあげく、ついに答えを見つけた。step4でその方法をデモする。
+ブランチ step1 と step2 で、カスタムGradleプラグインを開発するためのGradleプロジェクトを作った。プラグイン開発のためのプロジェクトとそれを「リハーサル」する＝予行演習するためのプロジェクトと２つのプロジェクトからなるComposite Buildの構成にすることに成功した。step1とstep2を作るのにわたしは Terminalアプリケーション で bash とEmacsエディタを使い、あえてIntelliJ IDEAを使わなかった。つにぎ step3でGradleプロジェクトをIntelliJ IDEAに取り込むことを試みたができなかった。Composite Build構成のGradleプロジェクトをIntelliJ IDEAに結びつける正しい方法がわからなかった。この疑問に遭遇したのが２年ぐらい前。以来、悪戦苦闘した。そしてついに答えを見つけた。step4で答えを紹介する。
 
 ## step1
 
@@ -361,7 +361,7 @@ FunctionalTestのなかでカスタムGradleプラグインが提供する `gree
         }
     }
 
-`includeBuild()` というクロージャー呼び出しに注目してほしい。これがGradleのドキュメントにおいて [Composite Build](https://docs.gradle.org/current/userguide/composite_builds.html) と呼ばれているテクニックだ。これによって\`plugin-project\` プロジェクトが作成したカスタムGradleプラグインを `rehearsal-project` プロジェクトが直接に参照することができる。
+`includeBuild('../plugin-project')` というクロージャー呼び出しに注目してほしい。これがGradleのドキュメントにおいて [Composite Build](https://docs.gradle.org/current/userguide/composite_builds.html) と呼ばれているテクニックだ。これによって\`plugin-project\` プロジェクトが作成したカスタムGradleプラグインを `rehearsal-project` プロジェクトが直接に参照することができる。
 
 わたしは `rehearsal-project/build.gradle` ファイルを次のように書き換えた。
 
@@ -386,9 +386,9 @@ FunctionalTestのなかでカスタムGradleプラグインが提供する `gree
 
 カスタムGradleプラグインが動いて "Hello " というメッセージを表示した。成功だ。
 
-このように　ブランチ step2 に格納されたコード一式はComposite Build構成のGradleプロジェクトになっていて、完全に動作することを確かめることができた。めでたし、めでたし。
+このように ブランチ step2 に格納されたコード一式はComposite Build構成のGradleプロジェクトになっていて、完全に動作することを確かめることができた。めでたし、めでたし。
 
-以上のコードをわたしはbashシェルとテキストエディタで開発した。IntelliJ IDEAは使わなかった。次の step3 では step2 で作ったGradleプロジェクトをIntelliJ IDEAで開いて開発できるように設定することを試みた。ところが、うまくいかなかったんだ、これが。
+以上のコードをわたしはbashシェルとテキストエディタで開発した。IntelliJ IDEAは使わなかった。次の step3 では step2 で作ったGradleプロジェクトをIntelliJ IDEAで開いて開発できるように設定することを試みた。…​. ところがどっこい、うまくいかなかったんだ、これが。
 
 ## step3
 

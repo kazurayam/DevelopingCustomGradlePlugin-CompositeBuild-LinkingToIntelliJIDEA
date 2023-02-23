@@ -72,7 +72,7 @@ $ tree .
 include::../rehearsal-project/settings.gradle[]
 ----
 
-`includeBuild()` というクロージャー呼び出しに注目してほしい。これがGradleのドキュメントにおいて link:https://docs.gradle.org/current/userguide/composite_builds.html[Composite Build] と呼ばれているテクニックだ。これによって`plugin-project` プロジェクトが作成したカスタムGradleプラグインを `rehearsal-project` プロジェクトが直接に参照することができる。
+`includeBuild('../plugin-project')` というクロージャー呼び出しに注目してほしい。これがGradleのドキュメントにおいて link:https://docs.gradle.org/current/userguide/composite_builds.html[Composite Build] と呼ばれているテクニックだ。これによって`plugin-project` プロジェクトが作成したカスタムGradleプラグインを `rehearsal-project` プロジェクトが直接に参照することができる。
 
 わたしは `rehearsal-project/build.gradle` ファイルを次のように書き換えた。
 
@@ -101,6 +101,6 @@ BUILD SUCCESSFUL in 2s
 
 カスタムGradleプラグインが動いて "Hello " というメッセージを表示した。成功だ。
 
-このように　ブランチ step2 に格納されたコード一式はComposite Build構成のGradleプロジェクトになっていて、完全に動作することを確かめることができた。めでたし、めでたし。
+このように ブランチ step2 に格納されたコード一式はComposite Build構成のGradleプロジェクトになっていて、完全に動作することを確かめることができた。めでたし、めでたし。
 
-以上のコードをわたしはbashシェルとテキストエディタで開発した。IntelliJ IDEAは使わなかった。次の step3 では step2 で作ったGradleプロジェクトをIntelliJ IDEAで開いて開発できるように設定することを試みた。ところが、うまくいかなかったんだ、これが。
+以上のコードをわたしはbashシェルとテキストエディタで開発した。IntelliJ IDEAは使わなかった。次の step3 では step2 で作ったGradleプロジェクトをIntelliJ IDEAで開いて開発できるように設定することを試みた。.... ところがどっこい、うまくいかなかったんだ、これが。
