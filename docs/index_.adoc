@@ -1,3 +1,5 @@
+link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA[レポジトリのtopに戻る]
+
 == 作業環境
 
 * macOS 12.6
@@ -27,13 +29,11 @@ include::step2.adoc[]
 
 === step3
 
+link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step3[ブランチ step3]
+
 GradleプロジェクトをIntelliJ IDEAで開いてコードの開発をしようとしたが、うまくいかなかった。
 
-. IDEAの「モジュール」をどう設定すればいいのかわからなかった。IDEAの「モジュール」を作ろうとして色々試みるうちに、IDEAが余計なフォルダを追加したり、`settings.gradle`ファイルと`build.gradle`ファイルを上書きしたりしたせいで、元のGradleプロジェクトが壊れて動かなくなってしまった。
-
-. IDEAがクラスパスを正しく認識できていないので、カスタムGradleプラグインのコードをコンパイルすることすらできない
-
-. エディタ画面を右クリックしてJUnit5のテストを実行したいのだが、できなかった
+include::step3.adoc[]
 
 === step4
 
