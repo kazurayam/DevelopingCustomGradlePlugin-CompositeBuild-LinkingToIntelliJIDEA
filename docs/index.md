@@ -233,7 +233,7 @@
 
     68 directories, 26 files
 
-`gradle init` コマンドが自動生成した [`<rootDir>/plugin-project/plugin/build.gradle`](https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/blob/step1/plugin-project/plugin/build.gradle) ファイルには `check` タスクが定義されている。これは Functional テストを実行するタスクだ。
+`gradle init` コマンドが自動生成した [`<rootDir>/plugin-project/plugin/build.gradle`](https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/blob/step1/plugin-project/plugin/build.gradle) ファイルには下記のようなコードが書いてる。これによって `check` タスクが定義されている。
 
     // Add a source set for the functional test suite
     sourceSets {
@@ -257,7 +257,7 @@
         dependsOn(tasks.functionalTest)
     }
 
-[PluginProjectPluginFunctionalTest.groovy](https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/blob/step1/plugin-project/plugin/src/functionalTest/groovy/com/kazurayam/sample/PluginProjectPluginFunctionalTest.groovy)というコードが生成されていた。このGroovyコードが何をしているのだろうか？
+`check` タスクは `plugin/src/functionalTest` ディレクトリの下の `src/test` ディレクトリにあるGroovyコードをコンパイルして、できたclassを実行するように宣言されている。実は `` gradle init`コマンドは PluginProjectPluginFunctionalTest.groovy というコードも生成した。このクラスが `gradle check `` によって実行されるわけだ。ではこのGroovyコードは何をしているのだろうか？
 
 FunctionalTestは一時的ディレクトリを作りその中に `build.gradle` ファイルを作る。その中にはこう書いてる。
 
@@ -282,7 +282,7 @@ FunctionalTestのなかでカスタムGradleプラグインが提供する `gree
 
 ![step1 Test results PluginProjectPluginFunctionalTest](images/step1_Test-results-PluginProjectPluginFunctionalTest.png)
 
-Functionalテストもちゃんと動作していることを確認した。
+このように `step1` ブランチに格納されたコード一式は完全に動作するGradleプロジェクトであり、カスタムGradleプラグインを作ることに成功している。
 
 ## step2
 
