@@ -12,7 +12,11 @@
 
 === step1
 
+link:
+
 `<projectDir>/plugin-project`ディレクトリを作ってカスタムGradleプラグインのプロジェクトを作った。`gradle init`コマンドを実行し`4: Gradle Plugin`を選択してサンプルコード一式を自動生成させた。
+
+include::step1.adoc[]
 
 === step2
 
