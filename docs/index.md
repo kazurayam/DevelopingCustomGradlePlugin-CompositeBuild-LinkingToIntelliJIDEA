@@ -457,3 +457,54 @@ step2で完成させたGradleプロジェクトがComposite Build構成とか、
 ## step4
 
 完成しているGradleプロジェクトをIntelliJ IDEAに取り込むにどうすればいいのか、正しい方法をついに見つけた。build.gradleファイルを右クリックして "link to IntelliJ IDEA" メニューを選択する。
+
+step2ブランチで作ったGradleプロジェクトをIntelliJ IDEAで開くにはどうすれば良いのか？IDEAのドキュメントに何か説明があるんじゃないか？と思った。これかな？
+
+![step4 1 IDEA document](images/step4_1_IDEA_document.png)
+
+> 1 つの IntelliJ IDEA プロジェクト内に複数の Gradle プロジェクトを含めることができます。コードの一部を別のプロジェクトに保持する場合、作業が必要なレガシープロジェクトがある場合、Gradle コンポジットビルドがある場合、マイクロサービス(英語)で作業する場合に役立つことがあります。このようなプロジェクトを IntelliJ IDEA でリンクし、同時に管理することができます。
+
+おお、これだ。
+
+> IntelliJ IDEA プロジェクトが Gradle プロジェクトにリンクされていない場合、Gradle ツールウィンドウは無効になります。この場合、IntelliJ IDEA は、すぐに Gradle プロジェクトを再インポートして Gradle ツールウィンドウを有効にするリンクを含むメッセージを表示します。
+
+「メッセージを表示します」と書いてあるが、そんなメッセージ、本当に表示されたっけ？
+
+\`git checkout step2\`とやって、IDEAで開いてみた。
+メッセージなど見当たらない。
+
+**５０秒間ぐらい放置していた。**
+
+するとIDEAのウインドウがちょっと動いて、画面右側の領域にメッセージが表示された。
+
+![step4 2 Gradle build scripts found](images/step4_2_Gradle_build_scripts_found.png)
+
+IDEAが
+
+*「Gradleのビルド・スクリプトを見つけた」*
+
+*「ロードするかい？」*
+
+と訊ねている。ああ、ドキュメントに書いてあったメッセージとはこれだったのか！５０秒ぐらいも待たなければならかったから、今までわたしは気づかなかった。
+
+Loadボタンを押した。数秒間IDEAが動いて少し様子が変わった。
+
+![step4 3 Loaded](images/step4_3_Loaded.png)
+
+いい感じだ。Projectツリーのなかでプログラムのソースコードが配置されたノードに青い四角いアイコンが表示されている。IDEAがclasspathを正しく認識しているらしい。画面右側にIDEAがGradleプロジェクトをどのように認識しているかが表示されて。そこを見ると `plugin-project` と `rehearsal-project` という2つのGradleプロジェクトが認識されてるのがわかる。
+
+完全に動作するGradleプロジェクトを与えられたときIDEAが与えられたGradle build scriptを読み取り、解釈して、それと整合するようにIDEAのモジュールを適切に生成してくれたようだ。このときIDEAがProject Structureを目視してみたらこんなふうになっていた。
+
+![step4 4 Modules loaded](images/step4_4_Modules_loaded.png)
+
+違和感を覚えるところは見当たらない。たぶんこの設定が望ましいものなのだろう。
+
+# 結論
+
+わたしはカスタムGradleプラグインを開発しようとしてGradleプロジェクトを作った。２つのサブプロジェクトを持つComposite Buildの構成にした。コマンドラインのbashとテキストエディタEmacsを使って完全に動作するGradleプロジェクトを作った。そのGradleプロジェクトの開発をIntelliJ IDEAを使って継続しようとした。GradleプロジェクトをIntelliJ IDEAで開いたうまくいかなかった。「わからん！」と悩むばかりで2年経過した。そしてようやく正しいやり方がわかった。
+
+完全に動作するGradleプロジェクトをIDEAで開いたら、急がず、焦らず、５０秒ぐらいじっと待て！
+
+するとIDEAがプロジェクトの中の `build.gradle` ファイルたちを見つけ出し、解釈し、IDEAモジュールをどう設定すれば良いのかを見つけ出してくれる。そして `Load` ボタンを押せばいい。するとIDEAがGradleプロジェクトをよろしくIDEAのプロジェクトとして再構成する作業が完了する。
+
+わたしにとって長い道のりでした。
