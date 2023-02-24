@@ -1,12 +1,12 @@
 わたしはIntelliJ IDEAを立ち上げて `GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA` ディレクトリを開いた。下記のスクリーンショットを参照のこと。
 
-image::images/step3_1_just_after_opening_in_IDEA.png[]
+image::https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step3_1_just_after_opening_in_IDEA.png[]
 
 この中には具合の悪いことがたくさんある。かいつまんで指摘してみよう。
 
 IDEAがこういうメッセージを表示した: `Package name mismatch. Actual: 'com.kazurayam.sample', expected: ''`.
 
-image::images/step3_2_package_name_mismatch.png[]
+image::https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step3_2_package_name_mismatch.png[]
 
 このメッセージから、IDEAが `plugin-project` プロジェクトのGroovyソースコードがどのディレクトリに格納されているかを正しく認識していないということがわかる。
 

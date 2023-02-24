@@ -2,7 +2,7 @@ step2ブランチで作った完成しているGradleプロジェクトをIntell
 
 IDEAのドキュメントに何か説明があるんじゃないか？と思った。これかな？
 
-image::images/step4_1_IDEA_document.png[]
+image::https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step4_1_IDEA_document.png[]
 
 [quote]
 ____
@@ -25,7 +25,7 @@ ____
 
 するとIDEAのウインドウがちょっと動いて、画面右側の領域にメッセージが表示された。
 
-image::images/step4_2_Gradle_build_scripts_found.png[]
+image::https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step4_2_Gradle_build_scripts_found.png[]
 
 IDEAが
 
@@ -35,12 +35,12 @@ _「ロードするかい？」_
 
 と訊ねている。ああ、ドキュメントに書いてあったメッセージとはこれだったのか！気づかなかった。Loadボタンを押した。数秒間IDEAが動いて画面が変わった。
 
-image::images/step4_3_Loaded.png[]
+image::https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step4_3_Loaded.png[]
 
 いい感じだ。Projectツリーのなかでプログラムのソースコードが配置されたノードに青い四角いアイコンが表示されている。IDEAがclasspathを正しく認識しているらしい。画面右側にIDEAがGradleプロジェクトをどのように認識しているかが表示されて。そこを見ると `plugin-project` と `rehearsal-project` という2つのGradleプロジェクトが認識されてるのがわかる。
 
 完全に動作するGradleプロジェクトを与えられたときIDEAが与えられたGradle build scriptを読み取り、解釈して、それと整合するようにIDEAのモジュールを適切に生成してくれたようだ。このときIDEAがProject Structureを目視してみたらこんなふうになっていた。
 
-image::images/step4_4_Modules_loaded.png[]
+image::https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step4_4_Modules_loaded.png[]
 
-ふうん、こういうものなのか。とくに違和感はない。この設定がたぶん望ましいものなのだろう。
+とくに違和感はない。この設定が望ましいものなのだろう。

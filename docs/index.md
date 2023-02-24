@@ -1,5 +1,13 @@
 [レポジトリのtopに戻る](https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA)
 
+# 結論を先に述べる
+
+わたしはカスタムGradleプラグインを開発しようとしてGradleプロジェクトを作った。２つのサブプロジェクトを持つComposite Buildの構成にした。コマンドラインのbashとテキストエディタEmacsで作った。そつなく動作するGradleプロジェクトを作ることができた。カスタムGradleプラグインのコードを発展させたくなった。IntelliJ IDEAにGradleプロジェクトをインポートしたくなった。GradleプロジェクトをIntelliJ IDEAで開いたが、うまくいかなかった。IDEAがクラスパスを正しく認識していない状態になり、何にもできなかった。どうすればGradleプロジェクトをIDEAにインポートすれば良いのか？「わからん！」と悩むばかりで2年経過した。だが今日、ようやく正しいやり方がわかった。
+
+**完全に動作しているGradleプロジェクトをIDEAで開いたら、急がず、焦らず、５０秒ぐらいじっと待て！**
+
+この５０秒間にIDEAはGradleプロジェクトのににある `build.gradle` ファイルを発見し、内容を解釈して、IDEAモジュールの望ましい設定を自動生成する。IDEAの準備ができたら `Load` ボタンを押せ！するとIDEAが与えられたGradleプロジェクトをそつなくIDEAプロジェクトとして再構成してくれる。
+
 # 作業環境
 
 -   macOS 12.6
@@ -10,15 +18,31 @@
 
 -   Emacs 28.2
 
-# Branches
+# サンプルコードのありか
+
+下記UURLでサンプルコードを公開しています。
+
+-   <https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA>
+
+この GitHubレポジトリには ４つのブランチが含まれています。
+
+1.  [ブランチ step1](https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step1)
+
+2.  [ブランチ step2](https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step2)
+
+3.  [ブランチ step3](https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step3)
+
+4.  [ブランチ step4](https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step4)
+
+以下で４つのブランチについて説明します。
 
 ブランチ step1 と step2 で、カスタムGradleプラグインを開発するためのGradleプロジェクトを作った。プラグイン開発のためのプロジェクトとそれを「リハーサル」する＝予行演習するためのプロジェクトと２つのプロジェクトからなるComposite Buildの構成にすることに成功した。step1とstep2を作るのにわたしは Terminalアプリケーション で bash とEmacsエディタを使い、あえてIntelliJ IDEAを使わなかった。つにぎ step3でGradleプロジェクトをIntelliJ IDEAに取り込むことを試みたができなかった。Composite Build構成のGradleプロジェクトをIntelliJ IDEAに結びつける正しい方法がわからなかった。この疑問に遭遇したのが２年ぐらい前。以来、悪戦苦闘した。そしてついに答えを見つけた。step4で答えを紹介する。
 
-## step1
+# step1
 
-[ブランチ step1](https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step1)
+step1では、カスタムGradleプラグインを開発するためのGradleプラグインを一つ作りました。
 
-\`&lt;rootDir&gt;/plugin-project\`ディレクトリを作ってカスタムGradleプラグインのプロジェクトを作った。\`gradle init\`コマンドを実行し\`4: Gradle Plugin\`を選択してサンプルコード一式を自動生成させた。
+`<rootDir>/plugin-project` ディレクトリを作ってカスタムGradleプラグインのプロジェクトを作った。`gradle init` コマンドを実行し\`4: Gradle Plugin\` を選択してサンプルコード一式を自動生成させた。
 
 `GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA` という名前のディレクトリを作った。これをレポジトリのルートと定めた。
 
@@ -282,13 +306,13 @@ FunctionalTestは一時的ディレクトリを作りその中に `build.gradle`
 
 FunctionalTestのなかでカスタムGradleプラグインが提供する `greeting` タスクが実行されたはずで、`greeting` タスクはSystem.outにテキストをprintしたはずだ。それを目視で確かめたい。System.outを目視するには `plugin-project/plugin/build/reports/tests/functionalTest/classes/com.kazurayam.sample.PluginProjectPluginFunctionalTest.html` ファイルをブラウザで開けば良い。こんなふうにテキストを目視することができた。
 
-![step1 Test results PluginProjectPluginFunctionalTest](images/step1_Test-results-PluginProjectPluginFunctionalTest.png)
+![step1 Test results PluginProjectPluginFunctionalTest](https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step1_Test-results-PluginProjectPluginFunctionalTest.png)
 
 このように `step1` ブランチに格納されたコード一式は完全に動作するGradleプロジェクトであり、カスタムGradleプラグインを作ることに成功している。
 
-## step2
+# step2
 
-[ブランチ step2](https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step2)
+step2では前述のstep1で開発したカスタムGradleプラグインを実際に利用して動作を確認するために、もう一つのGradleプラグインを作りました。
 
 `<rootDir>/rehearsal-project` ディレクトリを追加してComposite Buildの構成にした。`rehearsal-project/build.gradle` ファイルがカスタムGradleプラグインを呼び出して実行できるようにした。`plugin-project` が開発したカスタムGradleプラグインを **Mavenレポジトリを経由せずに** 直接呼び出す。jarファイルを作ってMavenレポジトリに上げる手間を省くことで、リハーサルすなわち予行演習が素早くできるようにした。
 
@@ -392,21 +416,19 @@ FunctionalTestのなかでカスタムGradleプラグインが提供する `gree
 
 以上のコードをわたしはbashシェルとテキストエディタで開発した。IntelliJ IDEAは使わなかった。次の step3 では step2 で作ったGradleプロジェクトをIntelliJ IDEAで開いて開発できるように設定することを試みた。…​. ところがどっこい、うまくいかなかったんだ、これが。
 
-## step3
+# step3
 
-[ブランチ step3](https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step3)
-
-GradleプロジェクトをIntelliJ IDEAで開いてコードの開発をしようとしたが、うまくいかなかった。
+step2で一つのルートディレクトリの下に２つのGradleプロジェクトを包含するComposite Build構成のディレクトリを作ることに成功した。このファイルツリーをIntelliJ IDEAで開いて、まともなIDEAプロジェクトとして使えるようにしたかった。しかしうまくいかなかった。どのように失敗したかをstep3で説明します。
 
 わたしはIntelliJ IDEAを立ち上げて `GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA` ディレクトリを開いた。下記のスクリーンショットを参照のこと。
 
-![step3 1 just after opening in IDEA](images/step3_1_just_after_opening_in_IDEA.png)
+![step3 1 just after opening in IDEA](https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step3_1_just_after_opening_in_IDEA.png)
 
 この中には具合の悪いことがたくさんある。かいつまんで指摘してみよう。
 
 IDEAがこういうメッセージを表示した: `Package name mismatch. Actual: 'com.kazurayam.sample', expected: ''`.
 
-![step3 2 package name mismatch](images/step3_2_package_name_mismatch.png)
+![step3 2 package name mismatch](https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step3_2_package_name_mismatch.png)
 
 このメッセージから、IDEAが `plugin-project` プロジェクトのGroovyソースコードがどのディレクトリに格納されているかを正しく認識していないということがわかる。
 
@@ -454,13 +476,15 @@ step2で完成させたGradleプロジェクトがComposite Build構成とか、
 
 以上が2年前のこと。それ以来、ずーっと悩みっぱなしだった。
 
-## step4
+# step4
+
+さんざん悩んだあげく、Composite Build構成のGradleプロジェクトをIntelliJ IDEAで開いてまともなIDEAプロジェクトとして使えるように設定することについに成功した。教訓は「５０秒待て」だった。なんてこった。
 
 step2ブランチで作った完成しているGradleプロジェクトをIntelliJ IDEAで開くにはどうすればよいのか？
 
 IDEAのドキュメントに何か説明があるんじゃないか？と思った。これかな？
 
-![step4 1 IDEA document](images/step4_1_IDEA_document.png)
+![step4 1 IDEA document](https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step4_1_IDEA_document.png)
 
 > 1 つの IntelliJ IDEA プロジェクト内に複数の Gradle プロジェクトを含めることができます。コードの一部を別のプロジェクトに保持する場合、作業が必要なレガシープロジェクトがある場合、Gradle コンポジットビルドがある場合、マイクロサービス(英語)で作業する場合に役立つことがあります。このようなプロジェクトを IntelliJ IDEA でリンクし、同時に管理することができます。
 
@@ -476,7 +500,7 @@ IDEAのドキュメントに何か説明があるんじゃないか？と思っ�
 
 するとIDEAのウインドウがちょっと動いて、画面右側の領域にメッセージが表示された。
 
-![step4 2 Gradle build scripts found](images/step4_2_Gradle_build_scripts_found.png)
+![step4 2 Gradle build scripts found](https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step4_2_Gradle_build_scripts_found.png)
 
 IDEAが
 
@@ -486,22 +510,16 @@ IDEAが
 
 と訊ねている。ああ、ドキュメントに書いてあったメッセージとはこれだったのか！気づかなかった。Loadボタンを押した。数秒間IDEAが動いて画面が変わった。
 
-![step4 3 Loaded](images/step4_3_Loaded.png)
+![step4 3 Loaded](https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step4_3_Loaded.png)
 
 いい感じだ。Projectツリーのなかでプログラムのソースコードが配置されたノードに青い四角いアイコンが表示されている。IDEAがclasspathを正しく認識しているらしい。画面右側にIDEAがGradleプロジェクトをどのように認識しているかが表示されて。そこを見ると `plugin-project` と `rehearsal-project` という2つのGradleプロジェクトが認識されてるのがわかる。
 
 完全に動作するGradleプロジェクトを与えられたときIDEAが与えられたGradle build scriptを読み取り、解釈して、それと整合するようにIDEAのモジュールを適切に生成してくれたようだ。このときIDEAがProject Structureを目視してみたらこんなふうになっていた。
 
-![step4 4 Modules loaded](images/step4_4_Modules_loaded.png)
+![step4 4 Modules loaded](https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step4_4_Modules_loaded.png)
 
-ふうん、こういうものなのか。とくに違和感はない。この設定がたぶん望ましいものなのだろう。
+とくに違和感はない。この設定が望ましいものなのだろう。
 
 # 結論
-
-わたしはカスタムGradleプラグインを開発しようとしてGradleプロジェクトを作った。２つのサブプロジェクトを持つComposite Buildの構成にした。コマンドラインのbashとテキストエディタEmacsを使って作った。完全に動作しているGradleプロジェクトの開発をIntelliJ IDEAを使って続けたかった。GradleプロジェクトをIntelliJ IDEAで開いたが、うまくいかなかった。IDEAがクラスパスを正しく認識しないので何にもできなかった。「わからん！」と悩むばかりで2年経過した。だが今日、ようやく正しいやり方がわかった。
-
-完全に動作するGradleプロジェクトをIDEAで開いたら、急がず、焦らず、５０秒ぐらいじっと待て！
-
-するとIDEAがプロジェクトの中の `build.gradle` ファイルたちを見つけ出し、解釈し、IDEAモジュールをどう設定すれば良いのかを考え出す。そして `Load` ボタンを押せばいい。するとIDEAがGradleプロジェクトをよろしくIDEAのプロジェクトとして再構成してくれる。
 
 わたしにとって長い苦難の道のりでした。
