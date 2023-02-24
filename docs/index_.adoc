@@ -2,11 +2,11 @@ link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntell
 
 == 結論を先に述べる
 
-わたしはカスタムGradleプラグインを開発しようとしてGradleプロジェクトを作った。２つのサブプロジェクトを持つComposite Buildの構成にした。コマンドラインのbashとテキストエディタEmacsで作った。そつなく動作するGradleプロジェクトを作ることができた。カスタムGradleプラグインのコードを発展させたくなった。IntelliJ IDEAにGradleプロジェクトをインポートしたくなった。GradleプロジェクトをIntelliJ IDEAで開いたが、うまくいかなかった。IDEAがクラスパスを正しく認識していない状態になり、何にもできなかった。どうすればGradleプロジェクトをIDEAにインポートすれば良いのか？「わからん！」と悩むばかりで2年経過した。だが今日、ようやく正しいやり方がわかった。
+わたしはカスタムGradleプラグインを開発しようとしてGradleプロジェクトを作った。２つのサブプロジェクトを持つComposite Buildの構成にした。そつなく動作するGradleプロジェクトを作ることができた。これをコマンドラインのbashとテキストエディタで作った。カスタムGradleプラグインのコードを高度なものに発展させたくなったので、IntelliJ IDEAを使いたくなった。GradleプロジェクトをIntelliJ IDEAで開いたがどうもうまくいかなかった。IDEAがクラスパスを正しく認識していない状態に陥って何にもできなかった。どうすればGradleプロジェクトをIDEAにインポートできるのか、よくわからないまま2年経過した。今日、ようやく解決方法がわかった。
 
-**完全に動作しているGradleプロジェクトをIDEAで開いたら、急がず、焦らず、５０秒ぐらいじっと待て！**
+教訓：**完全に動作しているGradleプロジェクトをIDEAで開いたら、急がず、焦らず、５０秒ぐらいじっと待て！**
 
-この５０秒間にIDEAはGradleプロジェクトのににある `build.gradle` ファイルを発見し、内容を解釈して、IDEAモジュールの望ましい設定を自動生成する。IDEAの準備ができたら `Load` ボタンを押せ！するとIDEAが与えられたGradleプロジェクトをそつなくIDEAプロジェクトとして再構成してくれる。
+この５０秒間にIDEAはGradleプロジェクトの中にある `build.gradle` ファイルを発見し、内容を解釈して、IDEAモジュールの望ましい設定を自動生成してくれる。IDEAの準備ができたら `Load` ボタンを押せ！するとGradleプロジェクトをうまいこと再構成してIDEAプロジェクトに仕立ててくれる。
 
 == 作業環境
 
@@ -17,7 +17,7 @@ link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntell
 
 == サンプルコードのありか
 
-下記UURLでサンプルコードを公開しています。
+下記のURLでサンプルコードを公開しています。
 
 * https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA
 
@@ -30,13 +30,11 @@ link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntell
 
 以下で４つのブランチについて説明します。
 
-ブランチ step1 と step2 で、カスタムGradleプラグインを開発するためのGradleプロジェクトを作った。プラグイン開発のためのプロジェクトとそれを「リハーサル」する＝予行演習するためのプロジェクトと２つのプロジェクトからなるComposite Buildの構成にすることに成功した。step1とstep2を作るのにわたしは Terminalアプリケーション で bash とEmacsエディタを使い、あえてIntelliJ IDEAを使わなかった。つにぎ step3でGradleプロジェクトをIntelliJ IDEAに取り込むことを試みたができなかった。Composite Build構成のGradleプロジェクトをIntelliJ IDEAに結びつける正しい方法がわからなかった。この疑問に遭遇したのが２年ぐらい前。以来、悪戦苦闘した。そしてついに答えを見つけた。step4で答えを紹介する。
-
 == step1
 
 step1では、カスタムGradleプラグインを開発するためのGradleプラグインを一つ作りました。
 
-`<rootDir>/plugin-project` ディレクトリを作ってカスタムGradleプラグインのプロジェクトを作った。`gradle init` コマンドを実行し`4: Gradle Plugin` を選択してサンプルコード一式を自動生成させた。
+`<rootDir>/plugin-project` ディレクトリを作ってカスタムGradleプラグインのプロジェクトを作った。`gradle init` コマンドを実行し `4: Gradle Plugin` を選択した。これによってGradleがプラグイン・プロジェクトのサンプル一式を自動生成してくれた。
 
 include::step1.adoc[]
 
@@ -56,7 +54,7 @@ include::step3.adoc[]
 
 == step4
 
-さんざん悩んだあげく、Composite Build構成のGradleプロジェクトをIntelliJ IDEAで開いてまともなIDEAプロジェクトとして使えるように設定することについに成功した。教訓は「５０秒待て」だった。なんてこった。
+さんざん悩んだあげく、Composite Build構成のGradleプロジェクトをIntelliJ IDEAで開いてまともなIDEAプロジェクトとして使えるように設定することについに成功した。
 
 include::step4.adoc[]
 

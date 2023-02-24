@@ -1,4 +1,4 @@
-# Gradleのカスタムプラグインを作りたい、GradleプロジェクトをComposite Buildにしたい、GradleプロジェクトをIntelliJ IDEAとリンクしたい、と企んで成功した話
+# カスタムGradleプラグインを作ろう、GradleプロジェクトをComposite Buildの構成にしよう、GradleプロジェクトをIntelliJ IDEAにインポートしよう、とした話
 
 kazurayam
 23 FEB, 2023
