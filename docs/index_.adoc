@@ -1,5 +1,13 @@
 link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA[レポジトリのtopに戻る]
 
+== 要旨
+
+わたしはカスタムGradleプラグインを開発しようとしてGradleプロジェクトを作った。２つのサブプロジェクトを持つComposite Buildの構成にした。そつなく動作するGradleプロジェクトを作ることができた。これをコマンドラインのbashとテキストエディタで作った。カスタムGradleプラグインのコードを高度なものに発展させたくなったので、IntelliJ IDEAを使いたくなった。GradleプロジェクトをIntelliJ IDEAで開いたがどうもうまくいかなかった。IDEAがクラスパスを正しく認識していない状態に陥って何にもできなかった。どうすればGradleプロジェクトをIDEAにインポートできるのかずっとわからなかったが、ようやく方法がわかった。
+
+教訓：**完全に動作しているGradleプロジェクトをIDEAで開いたら、急がず、焦らず、５０秒ぐらいじっと待て！**
+
+この５０秒間にIDEAはGradleプロジェクトの中にある `build.gradle` ファイルを発見し、内容を解釈して、IDEAモジュールの望ましい設定を自動生成してくれる。IDEAの準備ができたら `Load` ボタンを押せ！するとGradleプロジェクトをうまいこと再構成してIDEAプロジェクトに仕立ててくれる。
+
 == 作業環境
 
 * macOS 12.6
@@ -7,45 +15,49 @@ link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntell
 * IntelliJ IDEA Ultimate 2022.2.1
 * Emacs 28.2
 
-== Branches
+== サンプルコードのありか
 
-ブランチ step1 と step2 で、カスタムGradleプラグインを開発するためのGradleプロジェクトを作った。プラグイン開発のためのプロジェクトとそれを「リハーサル」する＝予行演習するためのプロジェクトと２つのプロジェクトからなるComposite Buildの構成にすることに成功した。step1とstep2を作るのにわたしは Terminalアプリケーション で bash とEmacsエディタを使い、あえてIntelliJ IDEAを使わなかった。つにぎ step3でGradleプロジェクトをIntelliJ IDEAに取り込むことを試みたができなかった。Composite Build構成のGradleプロジェクトをIntelliJ IDEAに結びつける正しい方法がわからなかった。この疑問に遭遇したのが２年ぐらい前。以来、悪戦苦闘した。そしてついに答えを見つけた。step4で答えを紹介する。
+下記のURLでサンプルコードを公開しています。
 
-=== step1
+* https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA
 
-link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step1[ブランチ step1]
+この GitHubレポジトリには ４つのブランチが含まれています。
 
-`<rootDir>/plugin-project`ディレクトリを作ってカスタムGradleプラグインのプロジェクトを作った。`gradle init`コマンドを実行し`4: Gradle Plugin`を選択してサンプルコード一式を自動生成させた。
+. link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step1[ブランチ step1]
+. link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step2[ブランチ step2]
+. link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step3[ブランチ step3]
+. link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step4[ブランチ step4]
+
+以下で４つのブランチについて説明します。
+
+== step1
+
+step1では、カスタムGradleプラグインを開発するためのGradleプラグインを一つ作りました。
+
+`<rootDir>/plugin-project` ディレクトリを作ってカスタムGradleプラグインのプロジェクトを作った。`gradle init` コマンドを実行し `4: Gradle Plugin` を選択した。これによってGradleがプラグイン・プロジェクトのサンプル一式を自動生成してくれた。
 
 include::step1.adoc[]
 
-=== step2
+== step2
 
-link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step2[ブランチ step2]
+step2では前述のstep1で開発したカスタムGradleプラグインを実際に利用して動作を確認するために、もう一つのGradleプロジェクトを作りました。
 
 `<rootDir>/rehearsal-project` ディレクトリを追加してComposite Buildの構成にした。`rehearsal-project/build.gradle` ファイルがカスタムGradleプラグインを呼び出して実行できるようにした。`plugin-project` が開発したカスタムGradleプラグインを **Mavenレポジトリを経由せずに** 直接呼び出す。jarファイルを作ってMavenレポジトリに上げる手間を省くことで、リハーサルすなわち予行演習が素早くできるようにした。
 
 include::step2.adoc[]
 
-=== step3
+== step3
 
-link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step3[ブランチ step3]
-
-GradleプロジェクトをIntelliJ IDEAで開いてコードの開発をしようとしたが、うまくいかなかった。
+step2で一つのルートディレクトリの下に２つのGradleプロジェクトを包含するComposite Build構成のディレクトリを作ることに成功した。このファイルツリーをIntelliJ IDEAで開いて、まともなIDEAプロジェクトとして使えるようにしたかった。しかしうまくいかなかった。どのように失敗したかをstep3で説明します。
 
 include::step3.adoc[]
 
-=== step4
+== step4
 
+さんざん悩んだあげく、Composite Build構成のGradleプロジェクトをIntelliJ IDEAで開いてまともなIDEAプロジェクトとして使えるように設定することについに成功した。
 
 include::step4.adoc[]
 
 == 結論
 
-わたしはカスタムGradleプラグインを開発しようとしてGradleプロジェクトを作った。２つのサブプロジェクトを持つComposite Buildの構成にした。コマンドラインのbashとテキストエディタEmacsを使って作った。完全に動作しているGradleプロジェクトの開発をIntelliJ IDEAを使って続けたかった。GradleプロジェクトをIntelliJ IDEAで開いたが、うまくいかなかった。IDEAがクラスパスを正しく認識しないので何にもできなかった。「わからん！」と悩むばかりで2年経過した。だが今日、ようやく正しいやり方がわかった。
-
-完全に動作するGradleプロジェクトをIDEAで開いたら、急がず、焦らず、５０秒ぐらいじっと待て！
-
-するとIDEAがプロジェクトの中の `build.gradle` ファイルたちを見つけ出し、解釈し、IDEAモジュールをどう設定すれば良いのかを考え出す。そして `Load` ボタンを押せばいい。するとIDEAがGradleプロジェクトをよろしくIDEAのプロジェクトとして再構成してくれる。
-
-わたしにとって長い苦難の道のりでした。
+Composite Build構成のGradleプロジェクトをIntelliJ IDEAにインポートしてカスタムGradleプラグインで開発できるようになった。2年かかった。長かった。

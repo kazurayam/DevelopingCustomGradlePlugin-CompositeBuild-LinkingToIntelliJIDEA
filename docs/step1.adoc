@@ -110,7 +110,7 @@ $ tree .
 include::../plugin-project/settings.gradle[lines=10..11]
 ----
 
-ここに `include('plugin')` という行があることに注目しよう。これはGradleの用語でいうところの link:https://docs.gradle.org/current/userguide/multi_project_builds.html#sec:creating_multi_project_builds[マルチプロジェクト] である。すなわちプロジェクトのルートディレクトリの下に複数のサブディレクトリを作り、それぞれの下に `src` ディレクトリを配置する。`plugin-project` プロジェクトはマルチプロジェクトの構成を取りつつも、ここではたまたまサブプロジェクトをひとつ（`plugin`）だけ持っている。
+ここに `include('plugin')` という行があることに注目しよう。これはGradleの用語でいうところの link:https://docs.gradle.org/current/userguide/multi_project_builds.html#sec:creating_multi_project_builds[マルチプロジェクト] である。すなわちプロジェクトのルートディレクトリの下に1個以上（複数可）のサブディレクトリを作り、それぞれの下に `src` ディレクトリを配置する。`plugin-project` プロジェクトはマルチプロジェクトの構成を取りつつも、ここではたまたまサブプロジェクトをひとつ（`plugin`）だけ持っている。
 
 さて、自動生成された `plugin-project` プロジェクトでGradleビルドを実行してみよう。
 
@@ -231,8 +231,9 @@ $ tree .
 68 directories, 26 files
 ----
 
+Gradleビルドがまともに動いていることがわかった。
 
-`gradle init` コマンドが自動生成した link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/blob/step1/plugin-project/plugin/build.gradle[`<rootDir>/plugin-project/plugin/build.gradle`] ファイルには下記のようなコードが書いてる。これによって `check` タスクが定義されている。
+`gradle init` コマンドが自動生成した link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/blob/step1/plugin-project/plugin/build.gradle[`<rootDir>/plugin-project/plugin/build.gradle`] ファイルには下記のようなコードが書いてある。これによって `check` タスクが定義されている。
 
 [source]
 ----
@@ -265,12 +266,9 @@ $ gradle check
 BUILD SUCCESSFUL in 891ms
 ----
 
-`check`タスクが成功した。
 
 FunctionalTestのなかでカスタムGradleプラグインが提供する `greeting` タスクが実行されたはずで、`greeting` タスクはSystem.outにテキストをprintしたはずだ。それを目視で確かめたい。System.outを目視するには `plugin-project/plugin/build/reports/tests/functionalTest/classes/com.kazurayam.sample.PluginProjectPluginFunctionalTest.html` ファイルをブラウザで開けば良い。こんなふうにテキストを目視することができた。
 
-image::images/step1_Test-results-PluginProjectPluginFunctionalTest.png[]
+image::https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step1_Test-results-PluginProjectPluginFunctionalTest.png[]
 
-このように `step1` ブランチに格納されたコード一式は完全に動作するGradleプロジェクトであり、カスタムGradleプラグインを作ることに成功している。
-
-
+`check` タスクが成功した。このように `step1` ブランチに格納されたコード一式は完全に動作するGradleプロジェクトであり、カスタムGradleプラグインを作ることに成功している。
