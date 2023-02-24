@@ -508,4 +508,4 @@ IDEAのProject Structureはこんなふうになっていた。
 
 # 結論
 
-Composite Build構成のGradleプロジェクトをIntelliJ IDEAにインポートしてカスタムGradleプラグインで開発できるようになった。2年かかった。長かった。
+Composite Build構成のGradleプロジェクトをIntelliJ IDEAにインポートしてカスタムGradleプラグインを開発できるようになった。2年かかった。長かった。
