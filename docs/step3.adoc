@@ -44,4 +44,4 @@ image::images/step3_7_plugin-project_got_total_mess.png[]
 
 . `plugin-project/src` ディレクトリとその下に`src/main/java` とかのディレクトリがIDEAによって追加された。こいつらも不要だ。
 
-この時点においてもIDEAは `plugin-project` のclasspathを正しく認識できていない。だから珍妙な警告メッセージはそのままで、解消できなかった。IntelliJ IDEAでこのプロジェクトを開発継続することは不可能だ。困り果てた。この問題に遭遇したのが2年前のこと。ずうっと解決できなかった。
+この時点においてもIDEAは `plugin-project` のclasspathを正しく認識できていない。だから珍妙な警告メッセージはそのままで、解消できなかった。IntelliJ IDEAでこのプロジェクトを開発継続することは不可能だ。困り果てた。この問題に遭遇したのが2年前だった。

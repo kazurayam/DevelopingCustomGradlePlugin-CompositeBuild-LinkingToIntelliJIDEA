@@ -1,8 +1,8 @@
 [レポジトリのtopに戻る](https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA)
 
-# 結論を先に述べる
+# 要旨
 
-わたしはカスタムGradleプラグインを開発しようとしてGradleプロジェクトを作った。２つのサブプロジェクトを持つComposite Buildの構成にした。そつなく動作するGradleプロジェクトを作ることができた。これをコマンドラインのbashとテキストエディタで作った。カスタムGradleプラグインのコードを高度なものに発展させたくなったので、IntelliJ IDEAを使いたくなった。GradleプロジェクトをIntelliJ IDEAで開いたがどうもうまくいかなかった。IDEAがクラスパスを正しく認識していない状態に陥って何にもできなかった。どうすればGradleプロジェクトをIDEAにインポートできるのか、よくわからないまま2年経過した。今日、ようやく解決方法がわかった。
+わたしはカスタムGradleプラグインを開発しようとしてGradleプロジェクトを作った。２つのサブプロジェクトを持つComposite Buildの構成にした。そつなく動作するGradleプロジェクトを作ることができた。これをコマンドラインのbashとテキストエディタで作った。カスタムGradleプラグインのコードを高度なものに発展させたくなったので、IntelliJ IDEAを使いたくなった。GradleプロジェクトをIntelliJ IDEAで開いたがどうもうまくいかなかった。IDEAがクラスパスを正しく認識していない状態に陥って何にもできなかった。どうすればGradleプロジェクトをIDEAにインポートできるのかずっとわからなかったが、ようやく方法がわかった。
 
 教訓：**完全に動作しているGradleプロジェクトをIDEAで開いたら、急がず、焦らず、５０秒ぐらいじっと待て！**
 
@@ -464,7 +464,7 @@ IDEAは次のメッセージも表示した。`Groovy SDK is not configured for 
 
 3.  `plugin-project/src` ディレクトリとその下に\`src/main/java\` とかのディレクトリがIDEAによって追加された。こいつらも不要だ。
 
-この時点においてもIDEAは `plugin-project` のclasspathを正しく認識できていない。だから珍妙な警告メッセージはそのままで、解消できなかった。IntelliJ IDEAでこのプロジェクトを開発継続することは不可能だ。困り果てた。この問題に遭遇したのが2年前のこと。ずうっと解決できなかった。
+この時点においてもIDEAは `plugin-project` のclasspathを正しく認識できていない。だから珍妙な警告メッセージはそのままで、解消できなかった。IntelliJ IDEAでこのプロジェクトを開発継続することは不可能だ。困り果てた。この問題に遭遇したのが2年前だった。
 
 # step4
 
@@ -508,8 +508,6 @@ IDEAのProject Structureはこんなふうになっていた。
 
 とくに違和感はない。わたしはIDEAが不勉強なので確たることはいえないが、この設定が望ましいものなのだろう。
 
-やっとカスタムGradleプラグインの開発をIntelliJ IDEAで継続することができるようになった。
-
 # 結論
 
-わたしにとって長い苦難の道のりでした。
+Composite Build構成のGradleプロジェクトをIntelliJ IDEAにインポートしてカスタムGradleプラグインで開発できるようになった。2年かかった。長かった。

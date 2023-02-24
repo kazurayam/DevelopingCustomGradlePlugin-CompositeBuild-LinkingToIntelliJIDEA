@@ -44,4 +44,3 @@ image::https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntel
 
 とくに違和感はない。わたしはIDEAが不勉強なので確たることはいえないが、この設定が望ましいものなのだろう。
 
-やっとカスタムGradleプラグインの開発をIntelliJ IDEAで継続することができるようになった。
