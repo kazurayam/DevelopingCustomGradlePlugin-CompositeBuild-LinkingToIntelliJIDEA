@@ -40,7 +40,7 @@ include::step1.adoc[]
 
 == step2
 
-step2では前述のstep1で開発したカスタムGradleプラグインを実際に利用して動作を確認するために、もう一つのGradleプラグインを作りました。
+step2では前述のstep1で開発したカスタムGradleプラグインを実際に利用して動作を確認するために、もう一つのGradleプロジェクトを作りました。
 
 `<rootDir>/rehearsal-project` ディレクトリを追加してComposite Buildの構成にした。`rehearsal-project/build.gradle` ファイルがカスタムGradleプラグインを呼び出して実行できるようにした。`plugin-project` が開発したカスタムGradleプラグインを **Mavenレポジトリを経由せずに** 直接呼び出す。jarファイルを作ってMavenレポジトリに上げる手間を省くことで、リハーサルすなわち予行演習が素早くできるようにした。
 

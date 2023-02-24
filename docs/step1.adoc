@@ -233,7 +233,7 @@ $ tree .
 
 Gradleビルドがまともに動いていることがわかった。
 
-`gradle init` コマンドが自動生成した link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/blob/step1/plugin-project/plugin/build.gradle[`<rootDir>/plugin-project/plugin/build.gradle`] ファイルには下記のようなコードが書いてる。これによって `check` タスクが定義されている。
+`gradle init` コマンドが自動生成した link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/blob/step1/plugin-project/plugin/build.gradle[`<rootDir>/plugin-project/plugin/build.gradle`] ファイルには下記のようなコードが書いてある。これによって `check` タスクが定義されている。
 
 [source]
 ----

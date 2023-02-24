@@ -12,31 +12,31 @@ image::https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntel
 
 またIDEAは次のメッセージを表示した: `No candidates found for method call project.tasks`.
 
-image::images/step3_3_No_candidates_found_for_method_call_project.task.png[]
+image::https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step3_3_No_candidates_found_for_method_call_project.task.png[]
 
 このメッセージに登場した `task.project` という変数はGradle APIの中心である `org.gradle.api.Project` クラスのインスタンスであるべきだ。ところがIDEA(の手下であるGroovyコンパイラ)はこの変数が何なのかわかっていない様子だ。お話にならない。
 
 IDEAは次のメッセージも表示した。`Groovy SDK is not configured for module 'GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA'`.
 
-image::images/step3_4_Groovy_SDK_is_not_configured.png[]
+image::https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step3_4_Groovy_SDK_is_not_configured.png[]
 
 何をいっているのか？ コマンドラインで `plugin-project`をGradleコマンド問題なくビルドできるのに、なぜIDEAはGroovy SDKがどうのこうのと、ややこしいことを要求するのか？
 
 link:https://pleiades.io/help/idea/gradle.html[IDEAのドキュメント]を斜め読みした。IDEAのツールバー Files > Project Structure.. を選ぶと表示されるダイアログ "Project Structure" で Project Settings メニューの中の Modules をなんとかする必要があるらしく思われた。そのダイアログを初めて開いた状態を下記スクリーンショットが示す。
 
-image::images/step3_5_File_ProjectStructure.png[]
+image::https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step3_5_File_ProjectStructure.png[]
 
 さて、何をどうするべきなのか？step2で完成させたGradleプロジェクトがComposite Build構成とか、マルチプロジェクトとかの技を駆使しているせいで、問題がややこしくなってしまっているらしい。わたしはIDEAを長年使っているがドキュメントをまともに読んだことがない。わたしはIDEAのModuleをどのように構成するべきなのか、さっぱりわからなかった。
 
 しょうがない。当てずっぽうでも何かやってみよう。たぶん `plugin-project` を一つのIDEAモジュールとして認識させることが必要なんだろう。そこで下記のように入力してみた。
 
-image::images/step3_6_tried_creating_module_for_plugin-project.png[]
+image::https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step3_6_tried_creating_module_for_plugin-project.png[]
 
 その結果、IDEAプロジェクトがぐちゃぐちゃになってしまった。次のスクリーンショットがその様子を示す。
 
-image::images/step3_7_plugin-project_got_total_mess.png[]
+image::https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step3_7_plugin-project_got_total_mess.png[]
 
-謎がいくつもある。
+具合悪いところがいくつもある。
 
 . `plugin-project/settings.gradle` ファイルがIDEAによって上書きされてしまった。 `include('plugin')` の行が無くなった。だからマルチプロジェクトであるはずのプロジェクト構成が壊れてしまった。
 

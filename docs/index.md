@@ -259,7 +259,7 @@ step1では、カスタムGradleプラグインを開発するためのGradleプ
 
 Gradleビルドがまともに動いていることがわかった。
 
-`gradle init` コマンドが自動生成した [`<rootDir>/plugin-project/plugin/build.gradle`](https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/blob/step1/plugin-project/plugin/build.gradle) ファイルには下記のようなコードが書いてる。これによって `check` タスクが定義されている。
+`gradle init` コマンドが自動生成した [`<rootDir>/plugin-project/plugin/build.gradle`](https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/blob/step1/plugin-project/plugin/build.gradle) ファイルには下記のようなコードが書いてある。これによって `check` タスクが定義されている。
 
     // Add a source set for the functional test suite
     sourceSets {
@@ -310,11 +310,9 @@ FunctionalTestのなかでカスタムGradleプラグインが提供する `gree
 
 # step2
 
-step2では前述のstep1で開発したカスタムGradleプラグインを実際に利用して動作を確認するために、もう一つのGradleプラグインを作りました。
+step2では前述のstep1で開発したカスタムGradleプラグインを実際に利用して動作を確認するために、もう一つのGradleプロジェクトを作りました。
 
 `<rootDir>/rehearsal-project` ディレクトリを追加してComposite Buildの構成にした。`rehearsal-project/build.gradle` ファイルがカスタムGradleプラグインを呼び出して実行できるようにした。`plugin-project` が開発したカスタムGradleプラグインを **Mavenレポジトリを経由せずに** 直接呼び出す。jarファイルを作ってMavenレポジトリに上げる手間を省くことで、リハーサルすなわち予行演習が素早くできるようにした。
-
-ルートディレクトリ `GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA` の直下に、`plugin-project` ディレクトリに並ぶ形で `rehearsal-project` ディレクトリを作った。
 
     $ baseName `pwd`
     GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA
@@ -432,31 +430,31 @@ IDEAがこういうメッセージを表示した: `Package name mismatch. Actua
 
 またIDEAは次のメッセージを表示した: `No candidates found for method call project.tasks`.
 
-![step3 3 No candidates found for method call project.task](images/step3_3_No_candidates_found_for_method_call_project.task.png)
+![step3 3 No candidates found for method call project.task](https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step3_3_No_candidates_found_for_method_call_project.task.png)
 
 このメッセージに登場した `task.project` という変数はGradle APIの中心である `org.gradle.api.Project` クラスのインスタンスであるべきだ。ところがIDEA(の手下であるGroovyコンパイラ)はこの変数が何なのかわかっていない様子だ。お話にならない。
 
 IDEAは次のメッセージも表示した。`Groovy SDK is not configured for module 'GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA'`.
 
-![step3 4 Groovy SDK is not configured](images/step3_4_Groovy_SDK_is_not_configured.png)
+![step3 4 Groovy SDK is not configured](https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step3_4_Groovy_SDK_is_not_configured.png)
 
 何をいっているのか？ コマンドラインで \`plugin-project\`をGradleコマンド問題なくビルドできるのに、なぜIDEAはGroovy SDKがどうのこうのと、ややこしいことを要求するのか？
 
 [IDEAのドキュメント](https://pleiades.io/help/idea/gradle.html)を斜め読みした。IDEAのツールバー Files &gt; Project Structure.. を選ぶと表示されるダイアログ "Project Structure" で Project Settings メニューの中の Modules をなんとかする必要があるらしく思われた。そのダイアログを初めて開いた状態を下記スクリーンショットが示す。
 
-![step3 5 File ProjectStructure](images/step3_5_File_ProjectStructure.png)
+![step3 5 File ProjectStructure](https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step3_5_File_ProjectStructure.png)
 
 さて、何をどうするべきなのか？step2で完成させたGradleプロジェクトがComposite Build構成とか、マルチプロジェクトとかの技を駆使しているせいで、問題がややこしくなってしまっているらしい。わたしはIDEAを長年使っているがドキュメントをまともに読んだことがない。わたしはIDEAのModuleをどのように構成するべきなのか、さっぱりわからなかった。
 
 しょうがない。当てずっぽうでも何かやってみよう。たぶん `plugin-project` を一つのIDEAモジュールとして認識させることが必要なんだろう。そこで下記のように入力してみた。
 
-![step3 6 tried creating module for plugin project](images/step3_6_tried_creating_module_for_plugin-project.png)
+![step3 6 tried creating module for plugin project](https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step3_6_tried_creating_module_for_plugin-project.png)
 
 その結果、IDEAプロジェクトがぐちゃぐちゃになってしまった。次のスクリーンショットがその様子を示す。
 
-![step3 7 plugin project got total mess](images/step3_7_plugin-project_got_total_mess.png)
+![step3 7 plugin project got total mess](https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step3_7_plugin-project_got_total_mess.png)
 
-謎がいくつもある。
+具合悪いところがいくつもある。
 
 1.  `plugin-project/settings.gradle` ファイルがIDEAによって上書きされてしまった。 `include('plugin')` の行が無くなった。だからマルチプロジェクトであるはずのプロジェクト構成が壊れてしまった。
 
