@@ -1,0 +1,53 @@
+link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA[レポジトリのtopに戻る]
+
+== 作業環境
+
+* macOS 12.6
+* Gradle 7.6
+* IntelliJ IDEA Ultimate 2022.2.1
+* Emacs 28.2
+
+== Branches
+
+ブランチ step1 と step2 で、カスタムGradleプラグインを開発するためのGradleプロジェクトを作った。プラグイン開発のためのプロジェクトとそれを「リハーサル」する＝予行演習するためのプロジェクトと２つのプロジェクトからなるComposite Buildの構成にすることに成功した。step1とstep2を作るのにわたしは Terminalアプリケーション で bash とEmacsエディタを使い、あえてIntelliJ IDEAを使わなかった。つにぎ step3でGradleプロジェクトをIntelliJ IDEAに取り込むことを試みたができなかった。Composite Build構成のGradleプロジェクトをIntelliJ IDEAに結びつける正しい方法がわからなかった。この疑問に遭遇したのが２年ぐらい前。以来、悪戦苦闘した。そしてついに答えを見つけた。step4で答えを紹介する。
+
+=== step1
+
+link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step1[ブランチ step1]
+
+`<rootDir>/plugin-project`ディレクトリを作ってカスタムGradleプラグインのプロジェクトを作った。`gradle init`コマンドを実行し`4: Gradle Plugin`を選択してサンプルコード一式を自動生成させた。
+
+include::step1.adoc[]
+
+=== step2
+
+link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step2[ブランチ step2]
+
+`<rootDir>/rehearsal-project` ディレクトリを追加してComposite Buildの構成にした。`rehearsal-project/build.gradle` ファイルがカスタムGradleプラグインを呼び出して実行できるようにした。`plugin-project` が開発したカスタムGradleプラグインを **Mavenレポジトリを経由せずに** 直接呼び出す。jarファイルを作ってMavenレポジトリに上げる手間を省くことで、リハーサルすなわち予行演習が素早くできるようにした。
+
+include::step2.adoc[]
+
+=== step3
+
+link:https://github.com/kazurayam/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/tree/step3[ブランチ step3]
+
+GradleプロジェクトをIntelliJ IDEAで開いてコードの開発をしようとしたが、うまくいかなかった。
+
+include::step3.adoc[]
+
+=== step4
+
+完成しているGradleプロジェクトをIntelliJ IDEAに取り込むにどうすればいいのか、正しい方法をついに見つけた。build.gradleファイルを右クリックして "link to IntelliJ IDEA" メニューを選択する。
+
+include::step4.adoc[]
+
+== 結論
+
+わたしはカスタムGradleプラグインを開発しようとしてGradleプロジェクトを作った。２つのサブプロジェクトを持つComposite Buildの構成にした。コマンドラインのbashとテキストエディタEmacsを使って完全に動作するGradleプロジェクトを作った。そのGradleプロジェクトの開発をIntelliJ IDEAを使って継続しようとした。GradleプロジェクトをIntelliJ IDEAで開いたうまくいかなかった。「わからん！」と悩むばかりで2年経過した。そしてようやく正しいやり方がわかった。
+
+完全に動作するGradleプロジェクトをIDEAで開いたら、急がず、焦らず、５０秒ぐらいじっと待て！
+
+するとIDEAがプロジェクトの中の `build.gradle` ファイルたちを見つけ出し、解釈し、IDEAモジュールをどう設定すれば良いのかを見つけ出してくれる。そして `Load` ボタンを押せばいい。するとIDEAがGradleプロジェクトをよろしくIDEAのプロジェクトとして再構成する作業が完了する。
+
+わたしにとって長い道のりでした。
+
