@@ -484,9 +484,15 @@ step2ブランチで作った完成しているGradleプロジェクトをIntell
 
 **５０秒間ぐらい放置していた。**
 
-するとIDEAのウインドウがちょっと動いて、画面右側の領域にメッセージが表示された。
+ふと、IDEAのウインドウの右下隅にごく小さい文字でこういうメッセージが表示されているに気がついた。
 
-![step4 2 Gradle build scripts found](https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step4_2_Gradle_build_scripts_found.png)
+![step4 2 little message](https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step4_2_little_message.png)
+
+&gt;\`Gradle scripts found, site: "xxxx" // Load\`
+
+なんだろうこれは？なんとなくこのメッセージをマウスでクリックしてみた。するとIDEAのウインドウがちょっと動いて、画面右側の領域にメッセージが表示された。
+
+![step4 3 Gradle build scripts found](https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step4_3_Gradle_build_scripts_found.png)
 
 *「Gradleのビルド・スクリプトを見つけた」*
 
@@ -496,13 +502,13 @@ step2ブランチで作った完成しているGradleプロジェクトをIntell
 
 Loadボタンを押した。数秒間IDEAが動いて画面がすっかり変化した。
 
-![step4 3 Loaded](https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step4_3_Loaded.png)
+![step4 4 Loaded](https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step4_4_Loaded.png)
 
 いい感じだ。Projectツリーのなかでプログラムのソースコードが配置されたノードに青い四角いアイコンが表示されている。IDEAがclasspathを正しく認識しているらしい。画面右側にIDEAがGradleプロジェクトをどのように認識しているかが表示されて。そこを見ると `plugin-project` と `rehearsal-project` という2つのGradleプロジェクトが認識されてるのがわかる。IDEAがGradleプロジェクトの中にある `build.gradle` ファイルを発見し、解釈して、それと整合するようにIDEAのモジュールを適切に生成してくれたようだ。
 
 IDEAのProject Structureはこんなふうになっていた。
 
-![step4 4 Modules loaded](https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step4_4_Modules_loaded.png)
+![step4 5 Modules loaded](https://kazurayam.github.io/GradleCustomPlugin-CompositeBuild-linkToIntelliJIDEA/images/step4_5_Modules_loaded.png)
 
 とくに違和感はない。わたしはIDEAが不勉強なので確たることはいえないが、この設定が望ましいものなのだろう。
 
